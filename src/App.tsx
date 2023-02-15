@@ -5,7 +5,7 @@ import Board from "./components/Board";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App h-screen text-center p-5 bg-orange-100 relative">
       <Board />
     </div>
   );

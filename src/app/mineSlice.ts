@@ -3,11 +3,6 @@ import { RootState, AppThunk, store } from "./store";
 import { CODE, GAME_STATUS } from "../constants";
 import nearbyCellsArr from "../utils/nearbyCellsArr";
 
-// export interface CounterState {
-//   value: number;
-//   status: "idle" | "loading" | "failed";
-// }
-
 const initialState = {
   boardData: [] as number[][],
   boardSize: { rowCount: 5, colCount: 5, mineCount: 5 },
@@ -18,7 +13,6 @@ const initialState = {
 export const mineSlice = createSlice({
   name: "mine",
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     leftClick: (state, action) => {
       if ([GAME_STATUS.WIN, GAME_STATUS.LOST].includes(state.gameStatus))
@@ -55,6 +49,7 @@ export const mineSlice = createSlice({
       if (action.payload.value === CODE.NORMAL) {
         openCell(action.payload.rowIndex, action.payload.colIndex);
 
+        //check if the player won
         if (
           state.openedCellCount ===
           state.boardSize.rowCount * state.boardSize.colCount -
@@ -68,8 +63,6 @@ export const mineSlice = createSlice({
         state.boardData[action.payload.rowIndex][action.payload.colIndex] = 8;
         state.gameStatus = GAME_STATUS.LOST;
       }
-
-      //check if the player won
     },
 
     rightClick: (state, action) => {
@@ -82,17 +75,15 @@ export const mineSlice = createSlice({
       }
     },
 
-    playAgain: (state) => {
+    startGame: (state, action) => {
       state.gameStatus = GAME_STATUS.PLAYING;
-    },
-
-    resize: (state, action) => {
       state.boardData = action.payload;
+      state.openedCellCount = 0;
     },
   },
 });
 
-export const { leftClick, rightClick, playAgain, resize } = mineSlice.actions;
+export const { leftClick, rightClick, startGame } = mineSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

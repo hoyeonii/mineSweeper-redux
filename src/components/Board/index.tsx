@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Cell from "../Cell";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { board, leftClick, playAgain, resize } from "../../app/mineSlice";
+import { board, leftClick, startGame } from "../../app/mineSlice";
 import { CODE, GAME_STATUS } from "../../constants";
 
 function Board() {
@@ -27,32 +27,50 @@ function Board() {
     while (flatBoardArr.length)
       shuffledArr.push(flatBoardArr.splice(0, colCount));
 
-    dispatch(resize(shuffledArr));
+    dispatch(startGame(shuffledArr));
   };
 
   return (
     <div>
-      Board{rowCount}
-      {colCount}/{openedCellCount}
-      {rowCount * colCount - mineCount} more cell to go
-      {gameStatus}
+      <h1
+        className="text-4xl font-bold underline m-2"
+        style={{ color: gameStatus === GAME_STATUS.WIN ? "orange" : "black" }}
+      >
+        {gameStatus}
+      </h1>
+      <span className="text-xl">
+        {openedCellCount}/ {rowCount * colCount - mineCount}
+      </span>
+      <br />
+
+      <div
+        className="mx-auto my-4"
+        style={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${rowCount},1fr)`,
+          gridGap: "10px",
+          width: "fit-content",
+        }}
+      >
+        {boardData.flat().map((cell, i) => (
+          <Cell
+            rowIndex={Math.floor(i / rowCount)}
+            colIndex={i % rowCount}
+            value={cell}
+          />
+        ))}
+      </div>
+
       {gameStatus !== GAME_STATUS.PLAYING && (
         <button
+          className="bg-amber-500 px-4 py-2 text-white font-bold"
           onClick={() => {
-            dispatch(playAgain());
             createMine();
           }}
         >
           Play Again
         </button>
       )}
-      {boardData.map((row, rowIdx) => (
-        <div>
-          {row.map((val, colIdx) => (
-            <Cell rowIndex={rowIdx} colIndex={colIdx} value={val} />
-          ))}
-        </div>
-      ))}
     </div>
   );
 }

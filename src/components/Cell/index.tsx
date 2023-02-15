@@ -9,13 +9,13 @@ interface CellI {
 }
 function Cell({ rowIndex, colIndex, value }: CellI) {
   const dispatch = useAppDispatch();
-  const { gameStatus } = useAppSelector(board);
+
   return (
-    <span
+    <button
+      className="w-8 h-8"
       style={{
-        border: "1px solid salmon",
-        margin: "10px",
-        backgroundColor: value >= 0 ? "white" : "gray",
+        backgroundColor: value >= 0 ? "orange" : "white",
+        color: "white",
       }}
       onClick={() => {
         if (value < 0) dispatch(leftClick({ rowIndex, colIndex, value }));
@@ -25,8 +25,10 @@ function Cell({ rowIndex, colIndex, value }: CellI) {
         if (value < 0) dispatch(rightClick({ rowIndex, colIndex, value }));
       }}
     >
-      {value}
-    </span>
+      {(value === -2 || value === -3) && "🚩"}
+      {value === 8 && "💣"}
+      {![-2, -3, 8].includes(value) && value}
+    </button>
   );
 }
 
