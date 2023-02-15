@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Cell from "../Cell";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { board, leftClick, resize } from "../../app/mineSlice";
-import { CODE } from "../../constants";
+import { board, leftClick, playAgain, resize } from "../../app/mineSlice";
+import { CODE, GAME_STATUS } from "../../constants";
 
 function Board() {
   const {
@@ -34,7 +34,18 @@ function Board() {
     <div>
       Board{rowCount}
       {colCount}/{openedCellCount}
+      {rowCount * colCount - mineCount} more cell to go
       {gameStatus}
+      {gameStatus !== GAME_STATUS.PLAYING && (
+        <button
+          onClick={() => {
+            dispatch(playAgain());
+            createMine();
+          }}
+        >
+          Play Again
+        </button>
+      )}
       {boardData.map((row, rowIdx) => (
         <div>
           {row.map((val, colIdx) => (
