@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Cell from "../Cell";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { board, leftClick, startGame } from "../../app/mineSlice";
+import { board, startGame } from "../../app/mineSlice";
 import { CODE, GAME_STATUS } from "../../constants";
 
 function Board() {
@@ -14,20 +14,11 @@ function Board() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    createMine();
-  }, [rowCount]);
+    createMine(5, 5);
+  }, []);
 
-  const createMine = () => {
-    const flatBoardArr = Array(rowCount * colCount)
-      .fill(CODE.NORMAL)
-      .fill(CODE.MINE, -mineCount)
-      .sort(() => 0.5 - Math.random());
-
-    const shuffledArr = [];
-    while (flatBoardArr.length)
-      shuffledArr.push(flatBoardArr.splice(0, colCount));
-
-    dispatch(startGame(shuffledArr));
+  const createMine = (rowCount: number, mineCount: number) => {
+    dispatch(startGame({ rowCount: rowCount, mineCount: mineCount }));
   };
 
   return (
@@ -61,15 +52,24 @@ function Board() {
         ))}
       </div>
 
-      {gameStatus !== GAME_STATUS.PLAYING && (
+      {gameStatus !== GAME_STATUS.PLAYING ? (
         <button
           className="bg-amber-500 px-4 py-2 text-white font-bold"
           onClick={() => {
-            createMine();
+            createMine(5, 5);
           }}
         >
           Play Again
         </button>
+      ) : (
+        [3, 5, 7].map((count) => (
+          <button
+            className="bg-amber-500 m-4 px-4 py-2 text-white font-bold"
+            onClick={() => createMine(count, count)}
+          >
+            {count}X{count}
+          </button>
+        ))
       )}
     </div>
   );

@@ -76,8 +76,23 @@ export const mineSlice = createSlice({
     },
 
     startGame: (state, action) => {
+      state.boardSize.rowCount = action.payload.rowCount;
+      state.boardSize.colCount = action.payload.rowCount;
+      state.boardSize.mineCount = action.payload.mineCount;
+
+      const flatBoardArr = Array(
+        state.boardSize.rowCount * state.boardSize.rowCount
+      )
+        .fill(CODE.NORMAL)
+        .fill(CODE.MINE, -state.boardSize.mineCount)
+        .sort(() => 0.5 - Math.random());
+
+      const shuffledArr = [];
+      while (flatBoardArr.length)
+        shuffledArr.push(flatBoardArr.splice(0, state.boardSize.rowCount));
+
       state.gameStatus = GAME_STATUS.PLAYING;
-      state.boardData = action.payload;
+      state.boardData = shuffledArr;
       state.openedCellCount = 0;
     },
   },
