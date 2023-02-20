@@ -1,6 +1,5 @@
-import React from "react";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { board, leftClick, rightClick } from "../../app/mineSlice";
+import { useAppDispatch } from "../../app/hooks";
+import { leftClick, rightClick } from "../../app/mineSlice";
 
 interface CellI {
   rowIndex: number;

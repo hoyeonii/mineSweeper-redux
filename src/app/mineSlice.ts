@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState, AppThunk, store } from "./store";
+import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 import { CODE, GAME_STATUS } from "../constants";
 import nearbyCellsArr from "../utils/nearbyCellsArr";
 

@@ -5,6 +5,7 @@ export const CODE = {
   FLAG_MINE: -3,
   MINE: -4,
 };
+
 export const GAME_STATUS = {
   PLAYING: "MINE SWEEPER",
   WIN: "WIN",

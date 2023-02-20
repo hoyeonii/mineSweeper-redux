@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Cell from "../Cell";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { board, startGame } from "../../app/mineSlice";
-import { CODE, GAME_STATUS } from "../../constants";
+import { GAME_STATUS } from "../../constants";
 
 function Board() {
   const {
@@ -56,15 +56,16 @@ function Board() {
         <button
           className="bg-amber-500 px-4 py-2 text-white font-bold"
           onClick={() => {
-            createMine(5, 5);
+            createMine(rowCount, rowCount);
           }}
         >
           Play Again
         </button>
       ) : (
-        [3, 5, 7].map((count) => (
+        [3, 5, 7].map((count, i) => (
           <button
             className="bg-amber-500 m-4 px-4 py-2 text-white font-bold"
+            key={i}
             onClick={() => createMine(count, count)}
           >
             {count}X{count}

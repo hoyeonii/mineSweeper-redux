@@ -1,5 +1,3 @@
-import {CODE} from "../constants";
-
 const nearbyCellsArr = (
   rowIndex: number,
   colIndex: number,
